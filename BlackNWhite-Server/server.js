@@ -13,11 +13,18 @@ const Redis = require("ioredis");
 const app = express();
 // const redisClient = new Redis(REDIS_PORT);
 const server = http.createServer(app);
-const options = {
-    cors: true,
-    origin: ['http://localhost:5000/blacknwhite/'],
-};
-const io = socketio(server, options);
+
+const io = require("socket.io")(server, {
+    cors: {
+      origin: "*",
+    },
+  });
+// const options = {
+//     cors: {
+//         origin: "*",
+//       },
+// };
+// const io = socketio(server, options);
 
 // const io = socketio(server,{
 //     cors: {
@@ -48,7 +55,7 @@ const randomId = () => crypto.randomBytes(8).toString("hex");
 
 
 setupWorker(io);
-require('./io-handler')(io);
+// require('./io-handler')(io);
 
 app.use(cors());
 app.use(bodyPaser.json());
